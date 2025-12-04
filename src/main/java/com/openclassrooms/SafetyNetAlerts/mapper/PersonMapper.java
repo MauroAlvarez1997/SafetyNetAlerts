@@ -10,7 +10,9 @@ public class PersonMapper {
         return new PersonDTO(
                 p.getFirstName(),
                 p.getLastName(),
-                p.getPhone()
+                p.getAddress(),
+                p.getPhone(),
+                p.getEmail()
         );
     }
 
