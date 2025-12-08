@@ -1,6 +1,5 @@
 package com.openclassrooms.SafetyNetAlerts.mapper;
 
-import com.openclassrooms.SafetyNetAlerts.dto.CreatePersonDTO;
 import com.openclassrooms.SafetyNetAlerts.dto.PersonDTO;
 import com.openclassrooms.SafetyNetAlerts.model.Person;
 
@@ -16,7 +15,7 @@ public class PersonMapper {
         );
     }
 
-    public static Person fromCreateDto(CreatePersonDTO dto) {
+    public static Person fromCreateDto(Person dto) {
         Person p = new Person();
         p.setFirstName(dto.getFirstName());
         p.setLastName(dto.getLastName());

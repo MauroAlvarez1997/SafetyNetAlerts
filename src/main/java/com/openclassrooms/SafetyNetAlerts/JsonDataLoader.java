@@ -1,40 +1,43 @@
 package com.openclassrooms.SafetyNetAlerts;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
+
+import com.openclassrooms.SafetyNetAlerts.model.FireStation;
+import com.openclassrooms.SafetyNetAlerts.model.JsonData;
+import com.openclassrooms.SafetyNetAlerts.model.MedicalRecord;
 import com.openclassrooms.SafetyNetAlerts.model.Person;
 import org.springframework.stereotype.Component;
 
 import jakarta.annotation.PostConstruct;
-import java.io.InputStream;
-import java.util.ArrayList;
+import tools.jackson.databind.ObjectMapper;
+
+import java.io.File;
 import java.util.List;
-import java.util.Map;
 
 @Component
 public class JsonDataLoader {
 
-    private final List<Person> persons = new ArrayList<>();
+    private final ObjectMapper mapper;
+    private JsonData data;
 
-    public List<Person> getPersons() {
-        return persons;
+    public JsonDataLoader(ObjectMapper mapper) {
+        this.mapper = mapper;
     }
 
     @PostConstruct
-    public void loadData() throws Exception {
-        ObjectMapper mapper = new ObjectMapper();
-        InputStream is = getClass().getClassLoader().getResourceAsStream("data.json");
-        if (is == null) {
-            throw new IllegalStateException("data.json not found in classpath");
-        }
+    public void loadData() {
+        try {
+            File file = new File("src/main/resources/data.json");
+            this.data = mapper.readValue(file, JsonData.class);
 
-        // Read root as a Map and then map each person entry to Person class
-        Map<String, Object> root = mapper.readValue(is, Map.class);
-        List<Map<String, Object>> personsList = (List<Map<String, Object>>) root.get("persons");
-        if (personsList != null) {
-            for (Map<String, Object> p : personsList) {
-                Person person = mapper.convertValue(p, Person.class);
-                persons.add(person);
-            }
+            System.out.println("JSON data loaded successfully!");
+
+        } catch (Exception e) {
+            e.printStackTrace();
+            throw new RuntimeException("Failed to load JSON data");
         }
     }
+
+    public List<Person> getPersons() { return data.getPersons(); }
+    public List<FireStation> getFireStations() { return data.getFireStations(); }
+    public List<MedicalRecord> getMedicalRecords() { return data.getMedicalRecords(); }
 }

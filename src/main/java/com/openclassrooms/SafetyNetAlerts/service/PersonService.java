@@ -2,8 +2,8 @@ package com.openclassrooms.SafetyNetAlerts.service;
 
 import com.openclassrooms.SafetyNetAlerts.dto.PersonDTO;
 import com.openclassrooms.SafetyNetAlerts.exceptions.PersonNotFoundException;
+import com.openclassrooms.SafetyNetAlerts.mapper.PersonMapper;
 import com.openclassrooms.SafetyNetAlerts.model.*;
-import com.openclassrooms.SafetyNetAlerts.repository.JsonDataRepository;
 import com.openclassrooms.SafetyNetAlerts.repository.PersonRepository;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -15,7 +15,6 @@ import java.util.stream.Collectors;
 @Service
 public class PersonService {
     private static final Logger logger = LoggerFactory.getLogger(PersonService.class);
-
     private final PersonRepository repo;
 
     public PersonService(PersonRepository repo) {
@@ -26,29 +25,30 @@ public class PersonService {
     public List<PersonDTO> getAllPersons() {
         logger.debug("Service: fetching all persons");
         return repo.findAll().stream()
-                .map(this::toDto)
+                .map(PersonMapper::toDto)
                 .collect(Collectors.toList());
     }
 
-    public PersonDTO addPerson(Person p) {
-        logger.debug("Service: adding person {} {}", p.getFirstName(), p.getLastName());
-        repo.save(p);
-        return toDto(p);
+    public PersonDTO addPerson(Person createDto) {
+        logger.debug("Service: adding person {} {}", createDto.getFirstName(), createDto.getLastName());
+        Person person = PersonMapper.fromCreateDto(createDto);
+        repo.save(person);
+        return PersonMapper.toDto(person);
     }
 
-    public PersonDTO updatePerson(String firstName, String lastName, Person newData) {
+    public PersonDTO updatePerson(String firstName, String lastName, Person updateDto) {
         Person existingPerson = repo.findByName(firstName, lastName)
                 .orElseThrow(() -> new PersonNotFoundException("Person not found: " + firstName + " " + lastName));
         logger.debug("Service: updating person {} {}", firstName, lastName);
 
         // update allowed fields
-        existingPerson.setAddress(newData.getAddress());
-        existingPerson.setCity(newData.getCity());
-        existingPerson.setZip(newData.getZip());
-        existingPerson.setPhone(newData.getPhone());
-        existingPerson.setEmail(newData.getEmail());
+        existingPerson.setAddress(updateDto.getAddress());
+        existingPerson.setCity(updateDto.getCity());
+        existingPerson.setZip(updateDto.getZip());
+        existingPerson.setPhone(updateDto.getPhone());
+        existingPerson.setEmail(updateDto.getEmail());
 
-        return toDto(existingPerson);
+        return PersonMapper.toDto(existingPerson);
     }
 
     public void deletePerson(String firstName, String lastName) {
@@ -56,9 +56,5 @@ public class PersonService {
                 .orElseThrow(() -> new PersonNotFoundException("Person not found: " + firstName + " " + lastName));
         logger.debug("Service: deleting person {} {}", firstName, lastName);
         repo.delete(personToDelete);
-    }
-
-    private PersonDTO toDto(Person p) {
-        return new PersonDTO(p.getFirstName(), p.getLastName(), p.getAddress(), p.getPhone(), p.getEmail());
     }
 }
