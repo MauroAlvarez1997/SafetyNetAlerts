@@ -38,6 +38,8 @@ public class PersonController {
     }
 
     // Update via query params firstName & lastName (spec says unique identifier)
+    //use @PathParam, look into how to do it with identifier
+    //assume first and last name doenst change
     @PutMapping
     public PersonDTO update(
             @RequestParam String firstName,
