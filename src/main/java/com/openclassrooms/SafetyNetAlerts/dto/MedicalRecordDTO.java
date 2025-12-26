@@ -1,15 +1,28 @@
-package com.openclassrooms.SafetyNetAlerts.model;
+package com.openclassrooms.SafetyNetAlerts.dto;
+
+import com.openclassrooms.SafetyNetAlerts.model.MedicalRecord;
 
 import java.util.List;
 
-public class MedicalRecord {
+public class MedicalRecordDTO {
     private String firstName;
     private String lastName;
     private String birthdate;
     private List<String> medications;
     private List<String> allergies;
 
+    public MedicalRecordDTO(){}
+
+    public MedicalRecordDTO(String firstName, String lastName, String birthdate, List<String> medications, List<String> allergies){
+        this.firstName = firstName;
+        this.lastName = lastName;
+        this.birthdate = birthdate;
+        this.medications = medications;
+        this.allergies = allergies;
+    }
+
     public String getFirstName() {
+
         return firstName;
     }
 
@@ -33,6 +46,14 @@ public class MedicalRecord {
         this.birthdate = birthdate;
     }
 
+    public List<String> getMedications() {
+        return medications;
+    }
+
+    public void setMedications(List<String> medications) {
+        this.medications = medications;
+    }
+
     public List<String> getAllergies() {
         return allergies;
     }
@@ -41,11 +62,4 @@ public class MedicalRecord {
         this.allergies = allergies;
     }
 
-    public List<String> getMedications() {
-        return medications;
-    }
-
-    public void setMedications(List<String> medications) {
-        this.medications = medications;
-    }
 }

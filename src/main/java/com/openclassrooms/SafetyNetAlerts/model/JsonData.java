@@ -14,9 +14,7 @@ public class JsonData {
     @JsonProperty("medicalrecords")
     private List<MedicalRecord> medicalRecords;
 
-    public List<Person> getPersons() {
-        return persons;
-    }
+    public List<Person> getPersons() {return persons;}
 
     public void setPersons(List<Person> persons) {
         this.persons = persons;

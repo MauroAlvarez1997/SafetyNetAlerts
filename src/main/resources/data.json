@@ -191,6 +191,14 @@
     "zip" : "65432",
     "phone" : "123-456-7890",
     "email" : "name@gmail.com"
+  }, {
+    "firstName" : "Mauro",
+    "lastName" : "Alvarez",
+    "address" : null,
+    "city" : null,
+    "zip" : null,
+    "phone" : null,
+    "email" : null
   } ],
   "firestations" : [ {
     "address" : "1509 Culver St",
