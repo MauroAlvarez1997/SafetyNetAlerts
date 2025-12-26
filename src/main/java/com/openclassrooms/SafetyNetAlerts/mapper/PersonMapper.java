@@ -10,6 +10,8 @@ public class PersonMapper {
                 p.getFirstName(),
                 p.getLastName(),
                 p.getAddress(),
+                p.getCity(),
+                p.getZip(),
                 p.getPhone(),
                 p.getEmail()
         );

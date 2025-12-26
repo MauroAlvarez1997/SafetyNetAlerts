@@ -22,36 +22,41 @@ public class FireStationService {
         this.repo = repo;
     }
 
-    public List<FireStationDTO> getAllFireStations(){
+    public List<FireStationDTO> getAllFireStations() {
         logger.debug("Service: Fetching all fire stations");
-        return repo.findAll().stream().map(FireStationMapper::toDto).collect(Collectors.toList());
+        return repo.findAll().stream()
+                .map(FireStationMapper::toDto)
+                .collect(Collectors.toList());
     }
 
-    public FireStationDTO addFireStation(FireStation createDto){
-        logger.debug("Service: Adding fire station: {} {}", createDto.getAddress(), createDto.getStation());
+    public FireStationDTO addFireStation(FireStation createDto) {
+        logger.debug("Service: Adding fire station {} {}",
+                createDto.getAddress(), createDto.getStation());
 
         FireStation fireStation = FireStationMapper.fromCreateDto(createDto);
         repo.save(fireStation);
         return FireStationMapper.toDto(fireStation);
-
     }
 
-    public FireStationDTO updateFireStation(String address, String station, FireStation updateDto){
-        FireStation existingFireStation = repo.findFireStation(address, station)
-                .orElseThrow(() -> new FireStationNotFoundException("Fire Station not found: " + address + " " + station));
+    public FireStationDTO updateFireStation(String address, FireStation updateDto) {
 
-        logger.debug("Service: updating fire station {} {}", address, station );
+        FireStation existingFireStation = repo.findByAddress(address)
+                .orElseThrow(() ->
+                        new FireStationNotFoundException("Fire Station not found for address: " + address));
+        logger.debug("Service: updating fire station for address {}", address);
         existingFireStation.setStation(updateDto.getStation());
+        repo.persist();
 
         return FireStationMapper.toDto(existingFireStation);
     }
 
-    public void deleteFireStation(String address, String station){
-        FireStation fireStation = repo.findFireStation(address, station)
-                .orElseThrow(()-> new FireStationNotFoundException("Fire Station not found: " + address + " " + station));
+    public void deleteFireStation(String address) {
 
-        logger.debug("Service: deleting fire station {} {}", address, station);
+        FireStation fireStation = repo.findByAddress(address)
+                .orElseThrow(() ->
+                        new FireStationNotFoundException("Fire Station not found for address: " + address));
+        logger.debug("Service: deleting fire station {}", address);
         repo.delete(fireStation);
     }
-
 }
+

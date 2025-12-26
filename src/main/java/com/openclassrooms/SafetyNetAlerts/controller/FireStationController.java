@@ -14,8 +14,8 @@ import java.util.List;
 @RestController
 @RequestMapping("/firestation")
 public class FireStationController {
-    private static final Logger logger = LoggerFactory.getLogger(FireStationController.class);
 
+    private static final Logger logger = LoggerFactory.getLogger(FireStationController.class);
     private final FireStationService service;
 
     public FireStationController(FireStationService service) {
@@ -23,33 +23,42 @@ public class FireStationController {
     }
 
     @GetMapping
-    public List<FireStationDTO> getAll(){
-        logger.info("GET / fire stations called");
+    public List<FireStationDTO> getAll() {
+        logger.info("GET /firestation called");
         List<FireStationDTO> fireStations = service.getAllFireStations();
-        logger.info("GET / fire stations responded with {} items", fireStations.size());
+        logger.info("GET /firestation responded with {} items", fireStations.size());
+
         return fireStations;
     }
 
     @PostMapping
-    public FireStationDTO create(@RequestBody FireStation fireStation){
-        logger.info("POST / fire station called for {} {}", fireStation.getAddress(), fireStation.getStation());
-        FireStationDTO createdFireStation = service.addFireStation(fireStation);
-        logger.info("POST / fire station created {} {}", createdFireStation.getAddress(), createdFireStation.getStation());
-        return createdFireStation;
+    public FireStationDTO create(@RequestBody FireStation fireStation) {
+        logger.info("POST /firestation called for address {}",
+                fireStation.getAddress());
+        FireStationDTO created = service.addFireStation(fireStation);
+        logger.info("POST /firestation created address {} with station {}",
+                created.getAddress(), created.getStation());
+
+        return created;
     }
 
-    @PutMapping
-    public FireStationDTO update( @RequestParam String address, @RequestParam String station, @RequestBody FireStation newData){
-        logger.info("PUT / fire station called for {} {}", address, station);
-        FireStationDTO updatedFireStation = service.updateFireStation(address, station, newData);
-        logger.info("PUT / fire station updated {} {}", address, station);
-        return updatedFireStation;
+    @PutMapping("/{address}")
+    public FireStationDTO update(
+            @PathVariable String address,
+            @RequestBody FireStation newData) {
+        logger.info("PUT /firestation/{} called", address);
+        FireStationDTO updated = service.updateFireStation(address, newData);
+        logger.info("PUT /firestation/{} updated to station {}",
+                address, updated.getStation());
+
+        return updated;
     }
 
-    @DeleteMapping
-    public void delete(@RequestParam String address, @RequestParam String station) {
-        logger.info("DELETE / fire station called {} {}", address, station);
-        service.deleteFireStation(address, station);
-        logger.info("DELETE / fire station succeeded for {} {}", address, station);
+    @DeleteMapping("/{address}")
+    public void delete(@PathVariable String address) {
+        logger.info("DELETE /firestation/{} called", address);
+        service.deleteFireStation(address);
+        logger.info("DELETE /firestation/{} succeeded", address);
     }
 }
+

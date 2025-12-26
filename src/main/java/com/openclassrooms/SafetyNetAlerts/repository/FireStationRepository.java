@@ -11,30 +11,34 @@ import java.util.Optional;
 @Repository
 public class FireStationRepository {
 
-    private final JsonDataLoader loader;
+    private final JsonDataRepository jsonRepo;
 
-
-    public FireStationRepository(JsonDataLoader loader) {
-        this.loader = loader;
+    public FireStationRepository(JsonDataRepository jsonRepo) {
+        this.jsonRepo = jsonRepo;
     }
 
-    public List<FireStation> findAll(){
-        return loader.getFireStations();
+    public List<FireStation> findAll() {
+        return jsonRepo.getData().getFireStations();
     }
 
-    public Optional<FireStation> findFireStation(String address, String station) {
-        return loader.getFireStations().stream()
-                .filter(fireStation -> fireStation.getAddress().equalsIgnoreCase(address)
-                        && fireStation.getStation().equalsIgnoreCase(station))
+    public Optional<FireStation> findByAddress(String address) {
+        return jsonRepo.getData().getFireStations().stream()
+                .filter(fireStation -> fireStation.getAddress().equalsIgnoreCase(address))
                 .findFirst();
     }
 
-    public void save(FireStation fireStation){
-        loader.getFireStations().add(fireStation);
+    public void save(FireStation fireStation) {
+        jsonRepo.getData().getFireStations().add(fireStation);
+        jsonRepo.persist();
     }
 
-    public void delete(FireStation fireStation){
-        loader.getFireStations().remove(fireStation);
+    public void persist() {
+        jsonRepo.persist();
+    }
+
+    public void delete(FireStation fireStation) {
+        jsonRepo.getData().getFireStations().remove(fireStation);
+        jsonRepo.persist();
     }
 
 }

@@ -8,7 +8,8 @@ import com.openclassrooms.SafetyNetAlerts.model.Person;
 import org.springframework.stereotype.Component;
 
 import jakarta.annotation.PostConstruct;
-import tools.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.ObjectMapper;
+
 
 import java.io.File;
 import java.util.List;

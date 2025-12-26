@@ -7,6 +7,7 @@ import com.openclassrooms.SafetyNetAlerts.model.*;
 import com.openclassrooms.SafetyNetAlerts.repository.PersonRepository;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -17,6 +18,7 @@ public class PersonService {
     private static final Logger logger = LoggerFactory.getLogger(PersonService.class);
     private final PersonRepository repo;
 
+    @Autowired
     public PersonService(PersonRepository repo) {
         this.repo = repo;
     }
@@ -47,6 +49,8 @@ public class PersonService {
         existingPerson.setZip(updateDto.getZip());
         existingPerson.setPhone(updateDto.getPhone());
         existingPerson.setEmail(updateDto.getEmail());
+
+        repo.persist();
 
         return PersonMapper.toDto(existingPerson);
     }
