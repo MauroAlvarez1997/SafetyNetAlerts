@@ -11,7 +11,8 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 /**
- * Handle request for person objects
+ * REST controller for managing persons.
+ * Provides endpoints to create, retrieve, update, and delete person data.
  */
 @RestController
 @RequestMapping("/persons")
@@ -21,6 +22,11 @@ public class PersonController {
 
     private final PersonService service;
 
+    /**
+     * Constructs a PersonController with the given service.
+     *
+     * @param service the person service used to handle business logic
+     */
     @Autowired
     public PersonController(PersonService service) {
         this.service = service;
@@ -39,6 +45,12 @@ public class PersonController {
         return res;
     }
 
+    /**
+     * Creates a new person.
+     *
+     * @param person the person data to create
+     * @return the created person as a DTO
+     */
     @PostMapping
     public PersonDTO create(@RequestBody Person person) {
         logger.info("POST /person called for {} {}", person.getFirstName(), person.getLastName());
@@ -47,9 +59,14 @@ public class PersonController {
         return created;
     }
 
-    // Update via query params firstName & lastName (spec says unique identifier)
-    //use @PathParam, look into how to do it with identifier
-    //assume first and last name doenst change
+    /**
+     * Updates an existing person identified by first and last name.
+     *
+     * @param firstName the first name of the person
+     * @param lastName  the last name of the person
+     * @param newData   the new person data
+     * @return the updated person as a DTO
+     */
     @PutMapping("/{firstName}/{lastName}")
     public PersonDTO update(
             @PathVariable String firstName,
@@ -62,6 +79,12 @@ public class PersonController {
         return updated;
     }
 
+    /**
+     * Deletes a person identified by first and last name.
+     *
+     * @param firstName the first name of the person
+     * @param lastName  the last name of the person
+     */
     @DeleteMapping("/{firstName}/{lastName}")
     public void delete(@PathVariable String firstName, @PathVariable String lastName) {
         logger.info("DELETE /person called for {} {}", firstName, lastName);

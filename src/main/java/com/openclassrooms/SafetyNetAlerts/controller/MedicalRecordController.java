@@ -11,7 +11,8 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 /**
- * Handle request for medical record objects
+ * REST controller for managing medical records.
+ * Provides endpoints to create, retrieve, update, and delete medical records.
  */
 @RestController
 @RequestMapping("/medicalRecord")
@@ -21,6 +22,11 @@ public class MedicalRecordController {
 
     private final MedicalRecordService service;
 
+    /**
+     * Constructs a MedicalRecordController with the given service.
+     *
+     * @param service the medical record service used to handle business logic
+     */
     @Autowired
     public MedicalRecordController(MedicalRecordService service) {
         this.service = service;
@@ -39,6 +45,12 @@ public class MedicalRecordController {
         return res;
     }
 
+    /**
+     * Creates a new medical record.
+     *
+     * @param medicalRecord the medical record data to create
+     * @return the created medical record as a DTO
+     */
     @PostMapping
     public MedicalRecordDTO create(@RequestBody MedicalRecord medicalRecord) {
         logger.info("POST /medicalRecord called for {} {}",
@@ -49,6 +61,14 @@ public class MedicalRecordController {
         return created;
     }
 
+    /**
+     * Updates an existing medical record identified by first and last name.
+     *
+     * @param firstName the first name of the person
+     * @param lastName  the last name of the person
+     * @param newData   the new medical record data
+     * @return the updated medical record as a DTO
+     */
     @PutMapping("/{firstName}/{lastName}")
     public MedicalRecordDTO update(
             @PathVariable String firstName,
@@ -61,6 +81,12 @@ public class MedicalRecordController {
         return updated;
     }
 
+    /**
+     * Deletes a medical record identified by first and last name.
+     *
+     * @param firstName the first name of the person
+     * @param lastName  the last name of the person
+     */
     @DeleteMapping("/{firstName}/{lastName}")
     public void delete(@PathVariable String firstName, @PathVariable String lastName) {
         logger.info("DELETE /medicalRecord called for {} {}", firstName, lastName);

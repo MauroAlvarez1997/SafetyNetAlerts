@@ -11,6 +11,10 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
+/**
+ * REST controller for managing fire station records.
+ * Provides endpoints to create, update, and delete fire stations.
+ */
 @RestController
 @RequestMapping("/firestation")
 public class FireStationController {
@@ -18,10 +22,20 @@ public class FireStationController {
     private static final Logger logger = LoggerFactory.getLogger(FireStationController.class);
     private final FireStationService service;
 
+    /**
+     * Constructs a FireStationController with the given service.
+     *
+     * @param service the fire station service used to handle business logic
+     */
     public FireStationController(FireStationService service) {
         this.service = service;
     }
 
+    /**
+     * Retrieves all fire stations.
+     *
+     * @return a list of all fire station DTOs
+     */
     @GetMapping
     public List<FireStationDTO> getAll() {
         logger.info("GET /firestation called");
@@ -31,6 +45,12 @@ public class FireStationController {
         return fireStations;
     }
 
+    /**
+     * Creates a new fire station mapping.
+     *
+     * @param fireStation the fire station data to create
+     * @return the created fire station as a DTO
+     */
     @PostMapping
     public FireStationDTO create(@RequestBody FireStation fireStation) {
         logger.info("POST /firestation called for address {}",
@@ -42,6 +62,13 @@ public class FireStationController {
         return created;
     }
 
+    /**
+     * Updates the fire station number associated with a given address.
+     *
+     * @param address the address to update
+     * @param newData the new fire station data
+     * @return the updated fire station as a DTO
+     */
     @PutMapping("/{address}")
     public FireStationDTO update(
             @PathVariable String address,
@@ -54,6 +81,12 @@ public class FireStationController {
         return updated;
     }
 
+
+    /**
+     * Deletes a fire station mapping for a given address.
+     *
+     * @param address the address of the fire station to delete
+     */
     @DeleteMapping("/{address}")
     public void delete(@PathVariable String address) {
         logger.info("DELETE /firestation/{} called", address);
