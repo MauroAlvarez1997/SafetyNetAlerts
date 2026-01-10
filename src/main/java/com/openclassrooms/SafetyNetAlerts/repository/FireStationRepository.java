@@ -46,6 +46,18 @@ public class FireStationRepository {
     }
 
     /**
+     * Returns a list of {@link FireStation} objects that are assigned to the given station number.
+     *
+     * @param stationNumber the station number to search for (case-insensitive)
+     * @return a list of fire stations matching the given station number; empty if none found
+     */
+    public List<FireStation> findByStation(String stationNumber) {
+        return jsonRepo.getData().getFireStations().stream()
+                .filter(fireStation -> fireStation.getStation().equalsIgnoreCase(stationNumber))
+                .toList();
+    }
+
+    /**
      * Saves a new fire station to the JSON data store.
      *
      * @param fireStation the FireStation object to save

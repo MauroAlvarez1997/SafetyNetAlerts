@@ -1,10 +1,18 @@
 package com.openclassrooms.SafetyNetAlerts.service;
 
+import com.openclassrooms.SafetyNetAlerts.Utils.AgeUtils;
+import com.openclassrooms.SafetyNetAlerts.dto.FireStationCoverageDTO;
 import com.openclassrooms.SafetyNetAlerts.dto.FireStationDTO;
+import com.openclassrooms.SafetyNetAlerts.dto.ResidentDTO;
 import com.openclassrooms.SafetyNetAlerts.exceptions.FireStationNotFoundException;
 import com.openclassrooms.SafetyNetAlerts.mapper.FireStationMapper;
+import com.openclassrooms.SafetyNetAlerts.mapper.ResidentMapper;
 import com.openclassrooms.SafetyNetAlerts.model.FireStation;
+import com.openclassrooms.SafetyNetAlerts.model.MedicalRecord;
+import com.openclassrooms.SafetyNetAlerts.model.Person;
 import com.openclassrooms.SafetyNetAlerts.repository.FireStationRepository;
+import com.openclassrooms.SafetyNetAlerts.repository.MedicalRecordRepository;
+import com.openclassrooms.SafetyNetAlerts.repository.PersonRepository;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
@@ -21,14 +29,20 @@ public class FireStationService {
 
     private static final Logger logger = LoggerFactory.getLogger(FireStationService.class);
     private final FireStationRepository repo;
+    private final PersonRepository personRepository;
+    private final PersonLookupService personLookupService;
+    private final MedicalRecordRepository medicalRecordRepository;
 
     /**
      * Constructs a FireStationService with the given repository.
      *
      * @param repo repository for fire station data
      */
-    public FireStationService(FireStationRepository repo) {
+    public FireStationService(FireStationRepository repo, PersonRepository personRepository, PersonLookupService personLookupService, MedicalRecordRepository medicalRecordRepository) {
         this.repo = repo;
+        this.personRepository = personRepository;
+        this.personLookupService = personLookupService;
+        this.medicalRecordRepository = medicalRecordRepository;
     }
 
     /**
@@ -92,4 +106,68 @@ public class FireStationService {
         logger.debug("Service: deleting fire station {}", address);
         repo.delete(fireStation);
     }
+
+    /**
+     * Retrieves all residents covered by a given fire station.
+     * The result includes the list of residents living in the coverage area
+     * along with the number of adults and children served by the station.
+     *
+     * @param stationNumber fire station number used to identify the coverage area
+     * @return fire station coverage data including residents and population counts
+     */
+    public FireStationCoverageDTO getCoverageByStationNumber(String stationNumber) {
+
+        // 1. Get addresses covered by the station
+        List<String> addresses = repo.findByStation(stationNumber).stream()
+                .map(FireStation::getAddress)
+                .toList();
+
+        // 2. Get persons + medical records in one pass
+        List<PersonMedicalInfo> people =
+                personLookupService.findByAddresses(addresses);
+
+        // 3. Map to ResidentDTO
+        List<ResidentDTO> residents = people.stream()
+                .map(p -> ResidentMapper.toDto(p.getPerson()))
+                .toList();
+
+        // 4. Count adults & children
+        long childCount = people.stream()
+                .filter(p -> p.getAge() <= 18)
+                .count();
+
+        long adultCount = people.size() - childCount;
+
+        // 5. Return DTO
+        return new FireStationCoverageDTO(
+                residents,
+                (int) adultCount,
+                (int) childCount
+        );
+    }
+
+    /**
+     * Retrieves all unique phone numbers of residents served by the specified fire station.
+     * This list is used for emergency alerting purposes.
+     *
+     * @param stationNumber fire station number used to identify the coverage area
+     * @return list of distinct phone numbers of residents covered by the fire station
+     */
+    public List<String> getPhoneNumbersByStation(String stationNumber) {
+
+        // 1. Get addresses covered by the station
+        List<String> addresses = repo.findByStation(stationNumber)
+                .stream()
+                .map(FireStation::getAddress)
+                .toList();
+
+        // 2. Get persons at those addresses
+        return personRepository.findAll().stream()
+                .filter(person -> addresses.contains(person.getAddress()))
+                .map(Person::getPhone)
+                .distinct()   // IMPORTANT
+                .toList();
+    }
+
+
 }

@@ -50,6 +50,21 @@ public class PersonRepository {
     }
 
     /**
+     * Finds all persons living at the given address.
+     *
+     * @param address the address to search for
+     * @return list of {@link Person} objects living at the address
+     */
+    public List<Person> findByAddress(String address) {
+        return jsonRepo.getData().getPersons().stream()
+                .filter(p -> p.getAddress().equalsIgnoreCase(address))
+                .toList();
+    }
+
+//    public List<Person> findByCity(String city){ return null;};
+//    public List<Person> findByFireStation(int station){return null; };
+
+    /**
      * Saves a new person to the JSON data store.
      *
      * @param person the {@link Person} object to save

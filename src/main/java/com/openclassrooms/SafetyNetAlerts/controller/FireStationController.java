@@ -1,5 +1,6 @@
 package com.openclassrooms.SafetyNetAlerts.controller;
 
+import com.openclassrooms.SafetyNetAlerts.dto.FireStationCoverageDTO;
 import com.openclassrooms.SafetyNetAlerts.dto.FireStationDTO;
 import com.openclassrooms.SafetyNetAlerts.dto.PersonDTO;
 import com.openclassrooms.SafetyNetAlerts.model.FireStation;
@@ -93,5 +94,21 @@ public class FireStationController {
         service.deleteFireStation(address);
         logger.info("DELETE /firestation/{} succeeded", address);
     }
+
+    /**
+     * Retrieves all residents covered by the specified fire station.
+     * The response includes the list of residents along with the number of adults and children.
+     *
+     * @param stationNumber fire station number used to identify the coverage area
+     * @return fire station coverage data including residents and population counts
+     */
+    @GetMapping(params = "stationNumber")
+    public FireStationCoverageDTO getCoverage(
+            @RequestParam String stationNumber) {
+
+        logger.info("GET /firestation?stationNumber={} called", stationNumber);
+        return service.getCoverageByStationNumber(stationNumber);
+    }
+
 }
 
