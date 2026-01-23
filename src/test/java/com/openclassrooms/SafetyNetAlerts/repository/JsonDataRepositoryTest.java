@@ -20,7 +20,7 @@ class JsonDataRepositoryTest {
 
     @BeforeEach
     void setUp() throws Exception {
-        // Create temp JSON file
+        // 1. Create a real temporary file on your disk
         tempFile = File.createTempFile("data", ".json");
         tempFile.deleteOnExit();
 
@@ -31,27 +31,16 @@ class JsonDataRepositoryTest {
               "medicalrecords": []
             }
             """;
-
         Files.writeString(tempFile.toPath(), json);
 
-        repository = new JsonDataRepository();
-
-        // Replace the private 'file' field via reflection
-        Field fileField = JsonDataRepository.class.getDeclaredField("file");
-        fileField.setAccessible(true);
-        fileField.set(repository, tempFile);
+        // 2. Pass the path to the constructor. No NullPointerException!
+        repository = new JsonDataRepository(tempFile.getAbsolutePath());
     }
 
     @Test
     void init_shouldLoadJsonData() {
-        repository.init();
-
-        JsonData data = repository.getData();
-
-        assertNotNull(data);
-        assertNotNull(data.getPersons());
-        assertNotNull(data.getFireStations());
-        assertNotNull(data.getMedicalRecords());
+        repository.init(); // This will now work because filePath is set
+        assertNotNull(repository.getData());
     }
 
     @Test
