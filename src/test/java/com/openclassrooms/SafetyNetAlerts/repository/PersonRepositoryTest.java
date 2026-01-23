@@ -114,4 +114,27 @@ class PersonRepositoryTest {
 
         verify(jsonDataRepository, times(1)).persist();
     }
+
+    @Test
+    void findByAddress_shouldReturnMatchingPersons() {
+        when(jsonDataRepository.getData()).thenReturn(jsonData);
+
+        Person p1 = new Person();
+        p1.setFirstName("John");
+        p1.setAddress("1509 Culver St");
+
+        Person p2 = new Person();
+        p2.setFirstName("Jane");
+        p2.setAddress("Other Address");
+
+        persons.add(p1);
+        persons.add(p2);
+
+        List<Person> result =
+                personRepository.findByAddress("1509 culver st");
+
+        assertEquals(1, result.size());
+        assertEquals("John", result.get(0).getFirstName());
+    }
+
 }

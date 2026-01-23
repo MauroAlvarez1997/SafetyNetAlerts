@@ -35,8 +35,7 @@ public class ChildAlertService {
      */
     public List<ChildAlertDTO> getChildrenByAddress(String address) {
 
-        List<PersonMedicalInfo> people =
-                lookupService.findByAddress(address);
+        List<PersonMedicalInfo> people = lookupService.findByAddress(address);
 
         return people.stream()
                 .filter(info -> info.getAge() <= 18)
