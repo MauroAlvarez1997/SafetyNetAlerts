@@ -61,9 +61,6 @@ public class PersonRepository {
                 .toList();
     }
 
-//    public List<Person> findByCity(String city){ return null;};
-//    public List<Person> findByFireStation(int station){return null; };
-
     /**
      * Saves a new person to the JSON data store.
      *

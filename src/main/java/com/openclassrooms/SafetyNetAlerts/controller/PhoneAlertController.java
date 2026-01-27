@@ -1,6 +1,8 @@
 package com.openclassrooms.SafetyNetAlerts.controller;
 
 import com.openclassrooms.SafetyNetAlerts.service.FireStationService;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -17,6 +19,7 @@ import java.util.List;
 @RequestMapping("/phoneAlert")
 public class PhoneAlertController {
 
+    private static final Logger logger = LoggerFactory.getLogger(PhoneAlertController.class);
     private final FireStationService service;
 
     /**
@@ -37,6 +40,11 @@ public class PhoneAlertController {
      */
     @GetMapping
     public List<String> getPhones(@RequestParam("firestation") String stationNumber) {
-        return service.getPhoneNumbersByStation(stationNumber);
+        logger.debug("Controller: fetching phone numbers for fire station: {}", stationNumber);
+
+        List<String> phoneNumbers = service.getPhoneNumbersByStation(stationNumber);
+
+        logger.debug("Controller: found {} phone numbers for station {}", phoneNumbers.size(), stationNumber);
+        return phoneNumbers;
     }
 }

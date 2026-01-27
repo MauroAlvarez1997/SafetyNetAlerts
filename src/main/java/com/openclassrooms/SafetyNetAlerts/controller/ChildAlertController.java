@@ -2,6 +2,8 @@ package com.openclassrooms.SafetyNetAlerts.controller;
 
 import com.openclassrooms.SafetyNetAlerts.dto.ChildAlertDTO;
 import com.openclassrooms.SafetyNetAlerts.service.ChildAlertService;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -16,6 +18,8 @@ import java.util.List;
 @RestController
 @RequestMapping
 public class ChildAlertController {
+
+    private static final Logger logger = LoggerFactory.getLogger(ChildAlertController.class);
 
     private final ChildAlertService service;
 
@@ -38,7 +42,7 @@ public class ChildAlertController {
      */
     @GetMapping("/childAlert")
     public List<ChildAlertDTO> getChildrenByAddress( @RequestParam("address") String address) {
-
+        logger.info("GET / child alert called");
         return service.getChildrenByAddress(address);
     }
 }

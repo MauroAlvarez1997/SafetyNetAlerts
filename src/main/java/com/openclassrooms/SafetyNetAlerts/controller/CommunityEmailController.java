@@ -1,6 +1,9 @@
 package com.openclassrooms.SafetyNetAlerts.controller;
 
 import com.openclassrooms.SafetyNetAlerts.service.CommunityService;
+import com.openclassrooms.SafetyNetAlerts.service.PersonService;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
@@ -13,7 +16,7 @@ import java.util.List;
  */
 @RestController
 public class CommunityEmailController {
-
+    private static final Logger logger = LoggerFactory.getLogger(CommunityEmailController.class);
     private final CommunityService service;
 
     /**
@@ -34,6 +37,7 @@ public class CommunityEmailController {
      */
     @GetMapping("/communityEmail")
     public List<String> getCommunityEmails(@RequestParam("city") String city) {
+        logger.debug("Controller: get community emails");
         return service.getEmailsByCity(city);
     }
 }

@@ -4,6 +4,8 @@ import com.openclassrooms.SafetyNetAlerts.Utils.AgeUtils;
 import com.openclassrooms.SafetyNetAlerts.model.Person;
 import com.openclassrooms.SafetyNetAlerts.repository.MedicalRecordRepository;
 import com.openclassrooms.SafetyNetAlerts.repository.PersonRepository;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -19,6 +21,7 @@ import java.util.stream.Collectors;
  */
 @Service
 public class PersonLookupService {
+    private static final Logger logger = LoggerFactory.getLogger(PersonLookupService.class);
 
     private final PersonRepository personRepository;
     private final MedicalRecordRepository medicalRecordRepository;
@@ -44,6 +47,7 @@ public class PersonLookupService {
      * @return a list of PersonMedicalInfo objects for residents at the address
      */
     public List<PersonMedicalInfo> findByAddress(String address) {
+        logger.debug("Service: Finding all people in an address");
         return personRepository.findByAddress(address).stream()
                 .map(this::toPersonMedicalInfo)
                 .filter(Objects::nonNull)
@@ -58,6 +62,7 @@ public class PersonLookupService {
      * @return a PersonMedicalInfo object including person, age, and medical record, or null if medical record is missing
      */
     private PersonMedicalInfo toPersonMedicalInfo(Person person) {
+        logger.debug("Service: Converting to PersonMedicalInfo object");
         return medicalRecordRepository
                 .findByName(person.getFirstName(), person.getLastName())
                 .map(record ->

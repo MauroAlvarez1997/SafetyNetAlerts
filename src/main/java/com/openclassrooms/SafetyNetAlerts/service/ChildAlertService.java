@@ -3,6 +3,8 @@ package com.openclassrooms.SafetyNetAlerts.service;
 import com.openclassrooms.SafetyNetAlerts.dto.ChildAlertDTO;
 import com.openclassrooms.SafetyNetAlerts.dto.HouseholdMemberDTO;
 import com.openclassrooms.SafetyNetAlerts.mapper.ChildAlertMapper;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -14,6 +16,8 @@ import java.util.stream.Collectors;
  */
 @Service
 public class ChildAlertService {
+
+    private static final Logger logger = LoggerFactory.getLogger(ChildAlertService.class);
 
     private final PersonLookupService lookupService;
 
@@ -34,7 +38,7 @@ public class ChildAlertService {
      * @return list of child alert DTOs
      */
     public List<ChildAlertDTO> getChildrenByAddress(String address) {
-
+        logger.debug("Service: Getting children by address");
         List<PersonMedicalInfo> people = lookupService.findByAddress(address);
 
         return people.stream()

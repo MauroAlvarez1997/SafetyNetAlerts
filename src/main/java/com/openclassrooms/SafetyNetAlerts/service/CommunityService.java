@@ -2,6 +2,8 @@ package com.openclassrooms.SafetyNetAlerts.service;
 
 import com.openclassrooms.SafetyNetAlerts.model.Person;
 import com.openclassrooms.SafetyNetAlerts.repository.PersonRepository;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -13,7 +15,7 @@ import java.util.List;
  */
 @Service
 public class CommunityService {
-
+    private static final Logger logger = LoggerFactory.getLogger(CommunityService.class);
     private final PersonRepository personRepository;
 
     /**
@@ -33,6 +35,7 @@ public class CommunityService {
      * @return list of distinct email addresses
      */
     public List<String> getEmailsByCity(String city) {
+        logger.debug("Service: fetching persons email for city: {}", city);
 
         return personRepository.findAll().stream()
                 .filter(person -> person.getCity().equalsIgnoreCase(city))
