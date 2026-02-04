@@ -3,6 +3,7 @@ package com.openclassrooms.SafetyNetAlerts.controller;
 import com.openclassrooms.SafetyNetAlerts.dto.ChildAlertDTO;
 import com.openclassrooms.SafetyNetAlerts.dto.HouseholdMemberDTO;
 import com.openclassrooms.SafetyNetAlerts.service.ChildAlertService;
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
@@ -16,6 +17,7 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
 @WebMvcTest(ChildAlertController.class)
+@DisplayName("ChildAlertController Tests")
 class ChildAlertControllerTest {
 
     @Autowired
@@ -25,6 +27,7 @@ class ChildAlertControllerTest {
     private ChildAlertService childAlertService;
 
     @Test
+    @DisplayName("GET /childAlert should return list of children with household members when address has children")
     void getChildrenByAddress_returnsChildren() throws Exception {
         // Arrange
         List<HouseholdMemberDTO> household = List.of(
@@ -53,6 +56,7 @@ class ChildAlertControllerTest {
     }
 
     @Test
+    @DisplayName("GET /childAlert should return empty list when no children found at address")
     void getChildrenByAddress_returnsEmptyList_whenNoChildren() throws Exception {
         // Arrange
         when(childAlertService.getChildrenByAddress("Unknown Address"))

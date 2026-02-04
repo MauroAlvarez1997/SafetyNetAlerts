@@ -3,6 +3,7 @@ package com.openclassrooms.SafetyNetAlerts.repository;
 import com.openclassrooms.SafetyNetAlerts.model.FireStation;
 import com.openclassrooms.SafetyNetAlerts.model.JsonData;
 import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
@@ -17,6 +18,7 @@ import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.*;
 
 @ExtendWith(MockitoExtension.class)
+@DisplayName("FireStationRepository Tests")
 class FireStationRepositoryTest {
 
     @Mock
@@ -36,6 +38,7 @@ class FireStationRepositoryTest {
     }
 
     @Test
+    @DisplayName("Should return all fire stations from repository")
     void findAll_shouldReturnAllFireStations() {
         when(jsonDataRepository.getData()).thenReturn(jsonData);
 
@@ -52,6 +55,7 @@ class FireStationRepositoryTest {
     }
 
     @Test
+    @DisplayName("Should return fire station when found by address (case-insensitive)")
     void findByAddress_shouldReturnMatchingFireStation_whenFound() {
         when(jsonDataRepository.getData()).thenReturn(jsonData);
 
@@ -69,6 +73,7 @@ class FireStationRepositoryTest {
     }
 
     @Test
+    @DisplayName("Should return empty Optional when fire station not found by address")
     void findByAddress_shouldReturnEmpty_whenNotFound() {
         when(jsonDataRepository.getData()).thenReturn(jsonData);
 
@@ -79,6 +84,7 @@ class FireStationRepositoryTest {
     }
 
     @Test
+    @DisplayName("Should save fire station and persist to data source")
     void save_shouldAddFireStationAndPersist() {
         when(jsonDataRepository.getData()).thenReturn(jsonData);
 
@@ -93,6 +99,7 @@ class FireStationRepositoryTest {
     }
 
     @Test
+    @DisplayName("Should delete fire station and persist changes")
     void delete_shouldRemoveFireStationAndPersist() {
         when(jsonDataRepository.getData()).thenReturn(jsonData);
 
@@ -109,6 +116,7 @@ class FireStationRepositoryTest {
     }
 
     @Test
+    @DisplayName("Should delegate persist call to JsonDataRepository")
     void persist_shouldCallJsonRepositoryPersist() {
         fireStationRepository.persist();
 

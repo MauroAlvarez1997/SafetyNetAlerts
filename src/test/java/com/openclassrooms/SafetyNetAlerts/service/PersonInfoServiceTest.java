@@ -5,6 +5,7 @@ import com.openclassrooms.SafetyNetAlerts.model.MedicalRecord;
 import com.openclassrooms.SafetyNetAlerts.model.Person;
 import com.openclassrooms.SafetyNetAlerts.repository.PersonRepository;
 import com.openclassrooms.SafetyNetAlerts.service.PersonMedicalInfo;
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
@@ -17,6 +18,7 @@ import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.*;
 
 @ExtendWith(MockitoExtension.class)
+@DisplayName("PersonInfoService Tests")
 class PersonInfoServiceTest {
 
     @Mock
@@ -29,6 +31,7 @@ class PersonInfoServiceTest {
     private PersonInfoService personInfoService;
 
     @Test
+    @DisplayName("Should return all persons with matching last name including their medical information")
     void getPersonsByLastName_shouldReturnAllMatchingPersons() {
 
         // ---- Person data ----

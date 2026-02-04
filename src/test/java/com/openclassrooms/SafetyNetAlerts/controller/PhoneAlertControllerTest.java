@@ -1,6 +1,7 @@
 package com.openclassrooms.SafetyNetAlerts.controller;
 
 import com.openclassrooms.SafetyNetAlerts.service.FireStationService;
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
@@ -14,6 +15,7 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
 @WebMvcTest(PhoneAlertController.class)
+@DisplayName("PhoneAlertController Tests")
 class PhoneAlertControllerTest {
 
     @Autowired
@@ -23,6 +25,7 @@ class PhoneAlertControllerTest {
     private FireStationService fireStationService;
 
     @Test
+    @DisplayName("GET /phoneAlert should return list of phone numbers for given fire station")
     void getPhones_returnsPhoneNumbers() throws Exception {
         // Arrange
         when(fireStationService.getPhoneNumbersByStation("1"))
@@ -42,6 +45,7 @@ class PhoneAlertControllerTest {
     }
 
     @Test
+    @DisplayName("GET /phoneAlert should return empty list when no phones found for fire station")
     void getPhones_returnsEmptyList_whenNoPhonesFound() throws Exception {
         // Arrange
         when(fireStationService.getPhoneNumbersByStation("99"))

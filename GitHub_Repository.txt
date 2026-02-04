@@ -1,0 +1,8 @@
+GitHub Repository Link for SafetyNetAlerts Project
+==================================================
+
+Repository URL: https://github.com/MauroAlvarez1997/SafetyNetAlerts.git
+
+Description: This repository contains the complete codebase for the SafetyNetAlerts application, a Spring Boot REST API that provides emergency alert information.
+
+Generated on: February 2, 2026

@@ -4,6 +4,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.openclassrooms.SafetyNetAlerts.dto.FireStationDTO;
 import com.openclassrooms.SafetyNetAlerts.model.FireStation;
 import com.openclassrooms.SafetyNetAlerts.service.FireStationService;
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
@@ -19,6 +20,7 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
 @WebMvcTest(FireStationController.class)
+@DisplayName("FireStationController Tests")
 class FireStationControllerTest {
 
     @Autowired
@@ -31,6 +33,7 @@ class FireStationControllerTest {
     private ObjectMapper objectMapper;
 
     @Test
+    @DisplayName("GET /firestation should return all fire stations")
     void getAll_shouldReturnFireStations() throws Exception {
         FireStationDTO dto = new FireStationDTO();
         dto.setAddress("1509 Culver St");
@@ -47,6 +50,7 @@ class FireStationControllerTest {
     }
 
     @Test
+    @DisplayName("POST /firestation should create and return new fire station")
     void create_shouldReturnCreatedFireStation() throws Exception {
         FireStation input = new FireStation();
         input.setAddress("29 15th St");
@@ -68,6 +72,7 @@ class FireStationControllerTest {
     }
 
     @Test
+    @DisplayName("PUT /firestation/{address} should update and return fire station")
     void update_shouldReturnUpdatedFireStation() throws Exception {
         FireStation update = new FireStation();
         update.setStation("4");
@@ -88,6 +93,7 @@ class FireStationControllerTest {
     }
 
     @Test
+    @DisplayName("DELETE /firestation/{address} should delete fire station and return OK")
     void delete_shouldReturnOk() throws Exception {
         doNothing().when(fireStationService).deleteFireStation("1509 Culver St");
 

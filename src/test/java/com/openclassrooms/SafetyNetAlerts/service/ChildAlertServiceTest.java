@@ -4,6 +4,7 @@ import com.openclassrooms.SafetyNetAlerts.dto.ChildAlertDTO;
 import com.openclassrooms.SafetyNetAlerts.model.MedicalRecord;
 import com.openclassrooms.SafetyNetAlerts.model.Person;
 import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
@@ -14,6 +15,7 @@ import java.util.List;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.Mockito.when;
 
+@DisplayName("ChildAlertService Tests")
 class ChildAlertServiceTest {
 
     @Mock
@@ -28,6 +30,7 @@ class ChildAlertServiceTest {
     }
 
     @Test
+    @DisplayName("Should return children with household members when address has both children and adults")
     void getChildrenByAddress_returnsChildrenWithHouseholdMembers() {
         // Arrange
         Person child = new Person();
@@ -67,6 +70,7 @@ class ChildAlertServiceTest {
     }
 
     @Test
+    @DisplayName("Should return empty list when address has no children (only adults)")
     void getChildrenByAddress_returnsEmptyList_whenNoChildren() {
         // Arrange
         Person adult = new Person();

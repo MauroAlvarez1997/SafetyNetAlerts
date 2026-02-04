@@ -4,6 +4,7 @@ import com.openclassrooms.SafetyNetAlerts.dto.PersonDTO;
 import com.openclassrooms.SafetyNetAlerts.exceptions.PersonNotFoundException;
 import com.openclassrooms.SafetyNetAlerts.model.Person;
 import com.openclassrooms.SafetyNetAlerts.repository.PersonRepository;
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
@@ -17,6 +18,7 @@ import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.*;
 
 @ExtendWith(MockitoExtension.class)
+@DisplayName("PersonService Tests")
 class PersonServiceTest {
 
     @Mock
@@ -26,6 +28,7 @@ class PersonServiceTest {
     private PersonService personService;
 
     @Test
+    @DisplayName("Should return all persons as DTOs")
     void getAllPersons_shouldReturnMappedDtos() {
         Person person = new Person();
         person.setFirstName("John");
@@ -47,6 +50,7 @@ class PersonServiceTest {
     }
 
     @Test
+    @DisplayName("Should save and return new person as DTO")
     void addPerson_shouldSaveAndReturnDto() {
         Person input = new Person();
         input.setFirstName("Jane");
@@ -62,6 +66,7 @@ class PersonServiceTest {
     }
 
     @Test
+    @DisplayName("Should update existing person fields and persist changes")
     void updatePerson_shouldUpdateFieldsAndPersist() {
         Person existing = new Person();
         existing.setFirstName("John");
@@ -95,6 +100,7 @@ class PersonServiceTest {
     }
 
     @Test
+    @DisplayName("Should throw PersonNotFoundException when updating non-existent person")
     void updatePerson_shouldThrowException_whenNotFound() {
         when(personRepository.findByName("Jane", "Doe"))
                 .thenReturn(Optional.empty());
@@ -111,6 +117,7 @@ class PersonServiceTest {
     }
 
     @Test
+    @DisplayName("Should delete existing person")
     void deletePerson_shouldDeleteExistingPerson() {
         Person existing = new Person();
         existing.setFirstName("John");
@@ -125,6 +132,7 @@ class PersonServiceTest {
     }
 
     @Test
+    @DisplayName("Should throw PersonNotFoundException when deleting non-existent person")
     void deletePerson_shouldThrowException_whenNotFound() {
         when(personRepository.findByName("Jane", "Doe"))
                 .thenReturn(Optional.empty());

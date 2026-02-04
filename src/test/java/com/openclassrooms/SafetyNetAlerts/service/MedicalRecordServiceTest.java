@@ -4,6 +4,7 @@ import com.openclassrooms.SafetyNetAlerts.dto.MedicalRecordDTO;
 import com.openclassrooms.SafetyNetAlerts.exceptions.MedicalRecordNotFoundException;
 import com.openclassrooms.SafetyNetAlerts.model.MedicalRecord;
 import com.openclassrooms.SafetyNetAlerts.repository.MedicalRecordRepository;
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
@@ -17,6 +18,7 @@ import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.*;
 
 @ExtendWith(MockitoExtension.class)
+@DisplayName("MedicalRecordService Tests")
 class MedicalRecordServiceTest {
 
     @Mock
@@ -26,6 +28,7 @@ class MedicalRecordServiceTest {
     private MedicalRecordService medicalRecordService;
 
     @Test
+    @DisplayName("Should return all medical records as DTOs")
     void getAllMedicalRecords_shouldReturnMappedDtos() {
         MedicalRecord record = new MedicalRecord();
         record.setFirstName("John");
@@ -45,6 +48,7 @@ class MedicalRecordServiceTest {
     }
 
     @Test
+    @DisplayName("Should save and return new medical record as DTO")
     void addMedicalRecord_shouldSaveAndReturnDto() {
         MedicalRecord newRecord = new MedicalRecord();
         newRecord.setFirstName("Jane");
@@ -61,6 +65,7 @@ class MedicalRecordServiceTest {
     }
 
     @Test
+    @DisplayName("Should update existing medical record and persist changes")
     void updateMedicalRecord_shouldUpdateMedicalFieldsAndPersist() {
         MedicalRecord existing = new MedicalRecord();
         existing.setFirstName("John");
@@ -84,6 +89,7 @@ class MedicalRecordServiceTest {
     }
 
     @Test
+    @DisplayName("Should throw MedicalRecordNotFoundException when deleting non-existent record")
     void delete_shouldThrowException_whenNotFound() {
         when(medicalRecordRepository.findByName("None", "Exist"))
                 .thenReturn(Optional.empty());

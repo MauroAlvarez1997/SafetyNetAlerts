@@ -5,6 +5,7 @@ import com.openclassrooms.SafetyNetAlerts.model.Person;
 import com.openclassrooms.SafetyNetAlerts.repository.MedicalRecordRepository;
 import com.openclassrooms.SafetyNetAlerts.repository.PersonRepository;
 import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
@@ -16,6 +17,7 @@ import java.util.Optional;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.Mockito.when;
 
+@DisplayName("PersonLookupService Tests")
 class PersonLookupServiceTest {
 
     @Mock
@@ -33,6 +35,7 @@ class PersonLookupServiceTest {
     }
 
     @Test
+    @DisplayName("Should return PersonMedicalInfo when medical record exists for person at address")
     void findByAddress_returnsPersonMedicalInfo_whenMedicalRecordExists() {
         // Arrange
         Person person = new Person();
@@ -63,6 +66,7 @@ class PersonLookupServiceTest {
     }
 
     @Test
+    @DisplayName("Should filter out person when medical record is missing")
     void findByAddress_filtersOutPerson_whenMedicalRecordMissing() {
         // Arrange
         Person person = new Person();
@@ -84,6 +88,7 @@ class PersonLookupServiceTest {
     }
 
     @Test
+    @DisplayName("Should return combined results for multiple addresses")
     void findByAddresses_returnsCombinedResults_forMultipleAddresses() {
         // Arrange
         Person person1 = new Person();

@@ -8,6 +8,7 @@ import com.openclassrooms.SafetyNetAlerts.model.Person;
 import com.openclassrooms.SafetyNetAlerts.repository.FireStationRepository;
 import com.openclassrooms.SafetyNetAlerts.repository.MedicalRecordRepository;
 import com.openclassrooms.SafetyNetAlerts.repository.PersonRepository;
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
@@ -21,6 +22,7 @@ import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.*;
 
 @ExtendWith(MockitoExtension.class)
+@DisplayName("FloodService Tests")
 class FloodServiceTest {
 
     @Mock
@@ -36,6 +38,7 @@ class FloodServiceTest {
     private FloodService floodService;
 
     @Test
+    @DisplayName("Should return households grouped by address for given fire station numbers")
     void getHouseholdsByStations_shouldGroupResidentsByAddress() {
 
         // ---- Fire stations ----

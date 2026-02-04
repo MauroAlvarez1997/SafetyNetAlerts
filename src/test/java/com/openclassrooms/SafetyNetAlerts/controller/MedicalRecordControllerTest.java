@@ -4,7 +4,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.openclassrooms.SafetyNetAlerts.dto.MedicalRecordDTO;
 import com.openclassrooms.SafetyNetAlerts.model.MedicalRecord;
 import com.openclassrooms.SafetyNetAlerts.service.MedicalRecordService;
-import org.junit.jupiter.api.Disabled;
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
@@ -19,6 +19,7 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
 @WebMvcTest(MedicalRecordController.class)
+@DisplayName("MedicalRecordController Tests")
 class MedicalRecordControllerTest {
 
     @Autowired
@@ -31,6 +32,7 @@ class MedicalRecordControllerTest {
     private ObjectMapper objectMapper;
 
     @Test
+    @DisplayName("GET /medicalRecord should return all medical records")
     void getAll_shouldReturnMedicalRecords() throws Exception {
         MedicalRecordDTO dto = new MedicalRecordDTO();
         dto.setFirstName("John");
@@ -45,6 +47,7 @@ class MedicalRecordControllerTest {
     }
 
     @Test
+    @DisplayName("POST /medicalRecord should create and return new medical record")
     void create_shouldReturnOk() throws Exception {
         MedicalRecord record = new MedicalRecord();
         record.setFirstName("New");
@@ -66,6 +69,7 @@ class MedicalRecordControllerTest {
     }
 
     @Test
+    @DisplayName("PUT /medicalRecord/{firstName}/{lastName} should update and return medical record")
     void update_shouldReturnUpdatedMedicalRecord() throws Exception {
         MedicalRecord updateRequest = new MedicalRecord();
         updateRequest.setBirthdate("03/06/1984");
@@ -91,6 +95,7 @@ class MedicalRecordControllerTest {
     }
 
     @Test
+    @DisplayName("DELETE /medicalRecord/{firstName}/{lastName} should delete medical record and return OK")
     void delete_shouldReturnOk() throws Exception {
         doNothing().when(medicalRecordService).deleteMedicalRecord("John", "Boyd");
 

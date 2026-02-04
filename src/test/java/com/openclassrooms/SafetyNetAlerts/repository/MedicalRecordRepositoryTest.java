@@ -3,6 +3,7 @@ package com.openclassrooms.SafetyNetAlerts.repository;
 import com.openclassrooms.SafetyNetAlerts.model.JsonData;
 import com.openclassrooms.SafetyNetAlerts.model.MedicalRecord;
 import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
@@ -17,6 +18,7 @@ import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.*;
 
 @ExtendWith(MockitoExtension.class)
+@DisplayName("MedicalRecordRepository Tests")
 class MedicalRecordRepositoryTest {
 
     @Mock
@@ -36,6 +38,7 @@ class MedicalRecordRepositoryTest {
     }
 
     @Test
+    @DisplayName("Should return all medical records from repository")
     void findAll_shouldReturnAllMedicalRecords() {
         when(jsonDataRepository.getData()).thenReturn(jsonData);
         MedicalRecord record = new MedicalRecord();
@@ -50,6 +53,7 @@ class MedicalRecordRepositoryTest {
     }
 
     @Test
+    @DisplayName("Should return medical record when found by name (case-insensitive)")
     void findByName_shouldReturnMatchingRecord_whenFound() {
         when(jsonDataRepository.getData()).thenReturn(jsonData);
         MedicalRecord record = new MedicalRecord();
@@ -64,6 +68,7 @@ class MedicalRecordRepositoryTest {
     }
 
     @Test
+    @DisplayName("Should save medical record and persist to data source")
     void save_shouldAddRecordAndPersist() {
         when(jsonDataRepository.getData()).thenReturn(jsonData);
         MedicalRecord record = new MedicalRecord();
@@ -77,6 +82,7 @@ class MedicalRecordRepositoryTest {
     }
 
     @Test
+    @DisplayName("Should delete medical record and persist changes")
     void delete_shouldRemoveRecordAndPersist() {
         when(jsonDataRepository.getData()).thenReturn(jsonData);
 

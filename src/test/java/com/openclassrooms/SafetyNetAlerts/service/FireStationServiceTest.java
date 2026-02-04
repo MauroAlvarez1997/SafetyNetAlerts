@@ -9,6 +9,7 @@ import com.openclassrooms.SafetyNetAlerts.repository.FireStationRepository;
 import com.openclassrooms.SafetyNetAlerts.repository.MedicalRecordRepository;
 import com.openclassrooms.SafetyNetAlerts.repository.PersonRepository;
 import com.openclassrooms.SafetyNetAlerts.exceptions.FireStationNotFoundException;
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
@@ -24,6 +25,7 @@ import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.Mockito.*;
 
 @ExtendWith(MockitoExtension.class)
+@DisplayName("FireStationService Tests")
 class FireStationServiceTest {
 
     @Mock
@@ -42,6 +44,7 @@ class FireStationServiceTest {
     private FireStationService fireStationService;
 
     @Test
+    @DisplayName("Should return all fire stations as DTOs")
     void getAllFireStations_shouldReturnMappedDtos() {
         FireStation station = new FireStation();
         station.setAddress("1509 Culver St");
@@ -56,6 +59,7 @@ class FireStationServiceTest {
     }
 
     @Test
+    @DisplayName("Should save and return new fire station as DTO")
     void addFireStation_shouldSaveAndReturnDto() {
         FireStation input = new FireStation();
         input.setAddress("29 15th St");
@@ -68,6 +72,7 @@ class FireStationServiceTest {
     }
 
     @Test
+    @DisplayName("Should update existing fire station and persist changes")
     void updateFireStation_shouldUpdateStationAndPersist() {
         FireStation existing = new FireStation();
         existing.setAddress("1509 Culver St");
@@ -87,6 +92,7 @@ class FireStationServiceTest {
     }
 
     @Test
+    @DisplayName("Should throw FireStationNotFoundException when updating non-existent fire station")
     void updateFireStation_shouldThrowException_whenNotFound() {
         when(fireStationRepository.findByAddress("Unknown"))
                 .thenReturn(Optional.empty());
@@ -98,6 +104,7 @@ class FireStationServiceTest {
     }
 
     @Test
+    @DisplayName("Should delete existing fire station")
     void deleteFireStation_shouldDeleteExistingStation() {
         FireStation existing = new FireStation();
         existing.setAddress("1509 Culver St");
@@ -111,6 +118,7 @@ class FireStationServiceTest {
     }
 
     @Test
+    @DisplayName("Should return coverage info with residents and child/adult counts for station number")
     void getCoverageByStationNumber_shouldReturnResidentsAndCounts() {
         FireStation fs = new FireStation();
         fs.setAddress("1509 Culver St");
@@ -142,6 +150,7 @@ class FireStationServiceTest {
     }
 
     @Test
+    @DisplayName("Should return distinct phone numbers for residents covered by station number")
     void getPhoneNumbersByStation_shouldReturnDistinctPhones() {
         FireStation fs = new FireStation();
         fs.setAddress("1509 Culver St");

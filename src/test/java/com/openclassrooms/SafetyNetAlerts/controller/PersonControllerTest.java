@@ -4,6 +4,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.openclassrooms.SafetyNetAlerts.dto.PersonDTO;
 import com.openclassrooms.SafetyNetAlerts.model.Person;
 import com.openclassrooms.SafetyNetAlerts.service.PersonService;
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
@@ -19,6 +20,7 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
 @WebMvcTest(PersonController.class)
+@DisplayName("PersonController Tests")
 class PersonControllerTest {
 
     @Autowired
@@ -31,6 +33,7 @@ class PersonControllerTest {
     private ObjectMapper objectMapper;
 
     @Test
+    @DisplayName("GET /persons should return all persons")
     void getAll_shouldReturnPersons() throws Exception {
         PersonDTO dto = new PersonDTO();
         dto.setFirstName("John");
@@ -49,6 +52,7 @@ class PersonControllerTest {
     }
 
     @Test
+    @DisplayName("POST /persons should create and return new person")
     void create_shouldReturnCreatedPerson() throws Exception {
         Person input = new Person();
         input.setFirstName("Jane");
@@ -73,6 +77,7 @@ class PersonControllerTest {
     }
 
     @Test
+    @DisplayName("PUT /persons/{firstName}/{lastName} should update and return person")
     void update_shouldReturnUpdatedPerson() throws Exception {
         Person update = new Person();
         update.setAddress("New Address");
@@ -98,6 +103,7 @@ class PersonControllerTest {
     }
 
     @Test
+    @DisplayName("DELETE /persons/{firstName}/{lastName} should delete person and return OK")
     void delete_shouldReturnOk() throws Exception {
         doNothing().when(personService).deletePerson("John", "Boyd");
 

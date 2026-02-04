@@ -3,6 +3,7 @@ package com.openclassrooms.SafetyNetAlerts.repository;
 import com.openclassrooms.SafetyNetAlerts.model.JsonData;
 import com.openclassrooms.SafetyNetAlerts.model.Person;
 import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
@@ -17,6 +18,7 @@ import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.*;
 
 @ExtendWith(MockitoExtension.class)
+@DisplayName("PersonRepository Tests")
 class PersonRepositoryTest {
 
     @Mock
@@ -37,6 +39,7 @@ class PersonRepositoryTest {
     }
 
     @Test
+    @DisplayName("Should return all persons from repository")
     void findAll_shouldReturnAllPersons() {
         when(jsonDataRepository.getData()).thenReturn(jsonData);
 
@@ -53,6 +56,7 @@ class PersonRepositoryTest {
     }
 
     @Test
+    @DisplayName("Should return person when found by name (case-insensitive)")
     void findByName_shouldReturnMatchingPerson_whenFound() {
         when(jsonDataRepository.getData()).thenReturn(jsonData);
 
@@ -70,6 +74,7 @@ class PersonRepositoryTest {
     }
 
     @Test
+    @DisplayName("Should return empty Optional when person not found by name")
     void findByName_shouldReturnEmpty_whenNotFound() {
         when(jsonDataRepository.getData()).thenReturn(jsonData);
 
@@ -79,6 +84,7 @@ class PersonRepositoryTest {
     }
 
     @Test
+    @DisplayName("Should save person and persist to data source")
     void save_shouldAddPersonAndPersist() {
         when(jsonDataRepository.getData()).thenReturn(jsonData);
 
@@ -93,6 +99,7 @@ class PersonRepositoryTest {
     }
 
     @Test
+    @DisplayName("Should delete person and persist changes")
     void delete_shouldRemovePersonAndPersist() {
         when(jsonDataRepository.getData()).thenReturn(jsonData);
 
@@ -109,6 +116,7 @@ class PersonRepositoryTest {
     }
 
     @Test
+    @DisplayName("Should delegate persist call to JsonDataRepository")
     void persist_shouldCallJsonRepositoryPersist() {
         personRepository.persist();
 
@@ -116,6 +124,7 @@ class PersonRepositoryTest {
     }
 
     @Test
+    @DisplayName("Should return all persons at given address (case-insensitive)")
     void findByAddress_shouldReturnMatchingPersons() {
         when(jsonDataRepository.getData()).thenReturn(jsonData);
 

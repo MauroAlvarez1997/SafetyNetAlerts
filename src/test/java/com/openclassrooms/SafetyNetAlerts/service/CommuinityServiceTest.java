@@ -2,6 +2,7 @@ package com.openclassrooms.SafetyNetAlerts.service;
 
 import com.openclassrooms.SafetyNetAlerts.model.Person;
 import com.openclassrooms.SafetyNetAlerts.repository.PersonRepository;
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
@@ -14,6 +15,7 @@ import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.*;
 
 @ExtendWith(MockitoExtension.class)
+@DisplayName("CommunityService Tests")
 class CommunityServiceTest {
 
     @Mock
@@ -23,6 +25,7 @@ class CommunityServiceTest {
     private CommunityService communityService;
 
     @Test
+    @DisplayName("Should return distinct non-null email addresses for residents of specified city")
     void getEmailsByCity_shouldReturnDistinctNonNullEmails() {
 
         // ---- Mock data ----
@@ -65,6 +68,7 @@ class CommunityServiceTest {
     }
 
     @Test
+    @DisplayName("Should return empty list when no residents found in specified city")
     void getEmailsByCity_shouldReturnEmptyList_whenNoResidentsInCity() {
         when(personRepository.findAll()).thenReturn(List.of());
 
