@@ -41,6 +41,18 @@ public class GlobalExceptionHandler {
     }
 
     /**
+     * Handles {@link MedicalRecordNotFoundException} thrown in the application.
+     *
+     * @param ex the exception
+     * @return ResponseEntity with HTTP 404 status and the exception message
+     */
+    @ExceptionHandler(MedicalRecordNotFoundException.class)
+    public ResponseEntity<String> handleMedicalRecordNotFound(MedicalRecordNotFoundException ex) {
+        logger.error("Medical Record not found: {}", ex.getMessage());
+        return ResponseEntity.status(HttpStatus.NOT_FOUND).body(ex.getMessage());
+    }
+
+    /**
      * Handles all other uncaught exceptions.
      *
      * @param ex the exception

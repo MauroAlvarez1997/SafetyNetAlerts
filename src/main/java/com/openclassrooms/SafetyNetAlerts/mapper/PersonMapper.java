@@ -25,22 +25,4 @@ public class PersonMapper {
                 p.getEmail()
         );
     }
-
-    /**
-     * Converts a Person object (currently passed as a Person entity) to a new Person entity.
-     *
-     * @param dto the Person object containing data (ideally should be a DTO)
-     * @return a new Person entity with the same data
-     */
-    public static Person fromCreateDto(Person dto) {
-        Person p = new Person();
-        p.setFirstName(dto.getFirstName());
-        p.setLastName(dto.getLastName());
-        p.setAddress(dto.getAddress());
-        p.setCity(dto.getCity());
-        p.setZip(dto.getZip());
-        p.setPhone(dto.getPhone());
-        p.setEmail(dto.getEmail());
-        return p;
-    }
 }

@@ -1,6 +1,5 @@
 package com.openclassrooms.SafetyNetAlerts.service;
 
-import com.openclassrooms.SafetyNetAlerts.Utils.AgeUtils;
 import com.openclassrooms.SafetyNetAlerts.dto.FireStationCoverageDTO;
 import com.openclassrooms.SafetyNetAlerts.dto.FireStationDTO;
 import com.openclassrooms.SafetyNetAlerts.dto.ResidentDTO;
@@ -8,17 +7,14 @@ import com.openclassrooms.SafetyNetAlerts.exceptions.FireStationNotFoundExceptio
 import com.openclassrooms.SafetyNetAlerts.mapper.FireStationMapper;
 import com.openclassrooms.SafetyNetAlerts.mapper.ResidentMapper;
 import com.openclassrooms.SafetyNetAlerts.model.FireStation;
-import com.openclassrooms.SafetyNetAlerts.model.MedicalRecord;
 import com.openclassrooms.SafetyNetAlerts.model.Person;
 import com.openclassrooms.SafetyNetAlerts.repository.FireStationRepository;
-import com.openclassrooms.SafetyNetAlerts.repository.MedicalRecordRepository;
 import com.openclassrooms.SafetyNetAlerts.repository.PersonRepository;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
-import java.util.stream.Collectors;
 
 /**
  * Service layer for managing FireStation objects.
@@ -31,18 +27,18 @@ public class FireStationService {
     private final FireStationRepository repo;
     private final PersonRepository personRepository;
     private final PersonLookupService personLookupService;
-    private final MedicalRecordRepository medicalRecordRepository;
 
     /**
      * Constructs a FireStationService with the given repository.
      *
      * @param repo repository for fire station data
+     * @param personRepository repository for person data
+     * @param personLookupService service for looking up persons with medical info
      */
-    public FireStationService(FireStationRepository repo, PersonRepository personRepository, PersonLookupService personLookupService, MedicalRecordRepository medicalRecordRepository) {
+    public FireStationService(FireStationRepository repo, PersonRepository personRepository, PersonLookupService personLookupService) {
         this.repo = repo;
         this.personRepository = personRepository;
         this.personLookupService = personLookupService;
-        this.medicalRecordRepository = medicalRecordRepository;
     }
 
     /**
@@ -54,20 +50,18 @@ public class FireStationService {
         logger.debug("Service: Fetching all fire stations");
         return repo.findAll().stream()
                 .map(FireStationMapper::toDto)
-                .collect(Collectors.toList());
+                .toList();
     }
 
     /**
      * Adds a new fire station.
      *
-     * @param createDto fire station data to create
+     * @param fireStation fire station data to create
      * @return the created {@link FireStationDTO}
      */
-    public FireStationDTO addFireStation(FireStation createDto) {
+    public FireStationDTO addFireStation(FireStation fireStation) {
         logger.debug("Service: Adding fire station {} {}",
-                createDto.getAddress(), createDto.getStation());
-
-        FireStation fireStation = FireStationMapper.fromCreateDto(createDto);
+                fireStation.getAddress(), fireStation.getStation());
         repo.save(fireStation);
         return FireStationMapper.toDto(fireStation);
     }

@@ -24,20 +24,4 @@ public class MedicalRecordMapper {
         );
     }
 
-    /**
-     * Converts a MedicalRecord object (currently passed as a MedicalRecord entity) to a new MedicalRecord entity.
-     *
-     * @param dto the MedicalRecord object containing data (ideally should be a DTO)
-     * @return a new MedicalRecord entity with the same data
-     */
-    public static MedicalRecord fromCreateDto(MedicalRecord dto){
-      MedicalRecord medicalRecord = new MedicalRecord();
-      medicalRecord.setFirstName(dto.getFirstName());
-      medicalRecord.setLastName(dto.getLastName());
-      medicalRecord.setBirthdate(dto.getBirthdate());
-      medicalRecord.setMedications(dto.getMedications());
-      medicalRecord.setAllergies(dto.getAllergies());
-      return medicalRecord;
-    };
-
 }

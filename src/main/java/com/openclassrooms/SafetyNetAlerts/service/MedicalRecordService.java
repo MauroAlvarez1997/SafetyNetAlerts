@@ -11,7 +11,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
-import java.util.stream.Collectors;
 
 /**
  * Service layer for managing {@link MedicalRecord} objects.
@@ -41,7 +40,7 @@ public class MedicalRecordService {
         logger.debug("Service: fetching all medical records");
         return repo.findAll().stream()
                 .map(MedicalRecordMapper::toDto)
-                .collect(Collectors.toList());
+                .toList();
     }
 
     /**

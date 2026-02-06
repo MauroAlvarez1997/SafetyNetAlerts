@@ -20,17 +20,4 @@ public class FireStationMapper {
                 fireStation.getStation()
         );
     }
-
-    /**
-     * Converts a FireStation DTO to a FireStation entity.
-     *
-     * @param dto the FireStation object containing data
-     * @return a new FireStation entity with the same data
-     */
-    public static FireStation fromCreateDto(FireStation dto) {
-        FireStation fireStation = new FireStation();
-        fireStation.setAddress(dto.getAddress());
-        fireStation.setStation(dto.getStation());
-        return fireStation;
-    }
 }

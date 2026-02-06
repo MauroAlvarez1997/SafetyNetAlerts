@@ -11,7 +11,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
-import java.util.stream.Collectors;
 
 /**
  * Service layer for managing {@link Person} objects.
@@ -41,18 +40,17 @@ public class PersonService {
         logger.debug("Service: fetching all persons");
         return repo.findAll().stream()
                 .map(PersonMapper::toDto)
-                .collect(Collectors.toList());
+                .toList();
     }
 
     /**
      * Adds a new person.
      *
-     * @param createDto person data to add
+     * @param person person data to add
      * @return the created {@link PersonDTO}
      */
-    public PersonDTO addPerson(Person createDto) {
-        logger.debug("Service: adding person {} {}", createDto.getFirstName(), createDto.getLastName());
-        Person person = PersonMapper.fromCreateDto(createDto);
+    public PersonDTO addPerson(Person person) {
+        logger.debug("Service: adding person {} {}", person.getFirstName(), person.getLastName());
         repo.save(person);
         return PersonMapper.toDto(person);
     }

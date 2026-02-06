@@ -10,7 +10,6 @@ import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.Objects;
-import java.util.stream.Collectors;
 
 /**
  * Service for retrieving detailed information about persons, including
@@ -51,7 +50,7 @@ public class PersonLookupService {
         return personRepository.findByAddress(address).stream()
                 .map(this::toPersonMedicalInfo)
                 .filter(Objects::nonNull)
-                .collect(Collectors.toList());
+                .toList();
     }
 
     /**
